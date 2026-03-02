@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedrona Paolo – Batterie Parma</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0a;
+      --red: #d62b2b;
+      --red-dark: #a01e1e;
+      --gold: #f0b429;
+      --white: #f5f5f0;
+      --gray: #888;
+      --panel: #141414;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #1f1f1f;
+    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.1em; color: var(--white); }
+    .nav-logo span { color: var(--red); }
+    .nav-cta {
+      background: var(--red); color: #fff; padding: 0.55rem 1.4rem;
+      border: none; font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--red-dark); }
+
+    /* ── HERO ── */
+    header {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(214,43,43,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 20% 80%, rgba(214,43,43,0.06) 0%, transparent 60%);
+    }
+    .hero-lines {
+      position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+    }
+    .hero-lines::before {
+      content: '';
+      position: absolute; top: -20%; right: -5%;
+      width: 55vw; height: 130%;
+      background: repeating-linear-gradient(
+        -15deg,
+        transparent 0,
+        transparent 48px,
+        rgba(255,255,255,0.018) 48px,
+        rgba(255,255,255,0.018) 50px
+      );
+    }
+    .eyebrow {
+      font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--red); font-weight: 600; margin-bottom: 1.2rem;
+      opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 12vw, 10rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      max-width: 900px;
+      opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
+    }
+    h1 em { color: var(--red); font-style: normal; }
+    .hero-sub {
+      margin-top: 2rem; max-width: 500px;
+      color: #aaa; font-size: 1.05rem; line-height: 1.7; font-weight: 300;
+      opacity: 0; animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-actions {
+      margin-top: 2.8rem; display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.7s 0.65s forwards;
+    }
+    .btn-primary {
+      background: var(--red); color: #fff;
+      padding: 0.85rem 2.2rem; text-decoration: none;
+      font-weight: 600; font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1.5px solid #444; color: var(--white);
+      padding: 0.85rem 2.2rem; text-decoration: none;
+      font-weight: 500; font-size: 0.9rem; letter-spacing: 0.04em; text-transform: uppercase;
+      transition: border-color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--white); transform: translateY(-2px); }
+
+    .hero-badge {
+      position: absolute; right: 4rem; top: 50%;
+      transform: translateY(-50%);
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      border: 2px solid var(--red);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      opacity: 0; animation: fadeIn 1s 0.9s forwards;
+    }
+    .hero-badge .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--gold); line-height: 1; }
+    .hero-badge .label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #aaa; margin-top: 0.3rem; }
+
+    /* ── STRIP ── */
+    .strip {
+      background: var(--red);
+      padding: 0.9rem 3rem;
+      display: flex; gap: 3rem; overflow: hidden;
+      white-space: nowrap;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem; letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.85);
+    }
+    .strip span::before { content: '✦  '; }
+
+    /* ── SEZIONI ── */
+    section { padding: 6rem 3rem; }
+
+    .section-label {
+      font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 1rem; font-weight: 600;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: 0.04em; line-height: 1.05;
+      max-width: 700px;
+    }
+
+    /* Servizi */
+    #servizi { border-top: 1px solid #1f1f1f; }
+    .services-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: #1f1f1f;
+    }
+    .service-card {
+      background: var(--panel);
+      padding: 2.5rem 2rem;
+      transition: background 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 3px;
+      background: var(--red);
+      transition: width 0.35s;
+    }
+    .service-card:hover { background: #1c1c1c; }
+    .service-card:hover::after { width: 100%; }
+    .service-icon { font-size: 2rem; margin-bottom: 1.2rem; }
+    .service-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.05em; margin-bottom: 0.7rem; }
+    .service-card p { color: #888; font-size: 0.9rem; line-height: 1.65; font-weight: 300; }
+
+    /* Perché noi */
+    #perche { background: var(--panel); }
+    .perche-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .stat { border-left: 3px solid var(--red); padding-left: 1.5rem; }
+    .stat .num { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--gold); line-height: 1; }
+    .stat .desc { color: #888; font-size: 0.88rem; margin-top: 0.4rem; line-height: 1.5; }
+
+    /* Orari + Contatti */
+    #contatti {
+      border-top: 1px solid #1f1f1f;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+    @media (max-width: 700px) { #contatti { grid-template-columns: 1fr; } }
+
+    .orari-table { margin-top: 2rem; width: 100%; border-collapse: collapse; }
+    .orari-table tr { border-bottom: 1px solid #1f1f1f; }
+    .orari-table td { padding: 0.75rem 0; font-size: 0.9rem; color: #ccc; }
+    .orari-table td:first-child { text-transform: capitalize; font-weight: 500; color: var(--white); width: 40%; }
+    .closed { color: var(--red) !important; }
+
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      margin-top: 1.8rem;
+    }
+    .contact-icon { font-size: 1.4rem; margin-top: 0.1rem; }
+    .contact-item strong { display: block; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); margin-bottom: 0.3rem; }
+    .contact-item a, .contact-item span { color: var(--white); font-size: 1rem; text-decoration: none; }
+    .contact-item a:hover { color: var(--red); }
+
+    /* CTA finale */
+    .final-cta {
+      background: var(--red);
+      padding: 5rem 3rem;
+      text-align: center;
+    }
+    .final-cta h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing: 0.04em; }
+    .final-cta p { color: rgba(255,255,255,0.8); margin: 1rem auto 2.5rem; max-width: 500px; font-size: 1rem; }
+    .final-cta .btn-white {
+      background: #fff; color: var(--red);
+      padding: 0.9rem 2.5rem; text-decoration: none;
+      font-weight: 700; font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase;
+      transition: opacity 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .final-cta .btn-white:hover { opacity: 0.92; transform: translateY(-2px); }
+
+    /* FOOTER */
+    footer {
+      background: #050505;
+      padding: 2rem 3rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+      border-top: 1px solid #1a1a1a;
+    }
+    footer .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.1em; }
+    footer .logo span { color: var(--red); }
+    footer p { color: #555; font-size: 0.8rem; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      header, section { padding: 5rem 1.5rem 3rem; }
+      .strip { padding: 0.9rem 1.5rem; }
+      .hero-badge { display: none; }
+      footer { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Pedrona <span>Paolo</span></div>
+  <a href="tel:052178392" class="nav-cta">📞 Chiama Ora</a>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <p class="eyebrow">Parma · Via Trieste, 58</p>
+  <h1>Vendita &amp;<br><em>Assistenza</em><br>Batterie</h1>
+  <p class="hero-sub">Dal 1980 il punto di riferimento a Parma per batterie auto, moto, camion e industriali. Assistenza rapida, prezzi onesti, professionalità.</p>
+  <div class="hero-actions">
+    <a href="tel:0521783924" class="btn-primary">📞 0521 783924</a>
+    <a href="#servizi" class="btn-outline">I Nostri Servizi</a>
+  </div>
+  <div class="hero-badge">
+    <span class="num">4.5K+</span>
+    <span class="label">Recensioni<br>Positive</span>
+  </div>
+</header>
+
+<!-- STRIP -->
+<div class="strip">
+  <span>Batterie Auto</span>
+  <span>Batterie Moto</span>
+  <span>Batterie Camion</span>
+  <span>Batterie Industriali</span>
+  <span>Assistenza Rapida</span>
+  <span>Installazione sul Posto</span>
+</div>
+
+<!-- SERVIZI -->
+<section id="servizi">
+  <p class="section-label">Cosa facciamo</p>
+  <h2 class="section-title">Servizi Professionali</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🚗</div>
+      <h3>Batterie Auto</h3>
+      <p>Fornitura e installazione batterie per tutte le marche e modelli di autovetture, inclusi veicoli ibridi e start-stop.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏍️</div>
+      <h3>Batterie Moto &amp; Scooter</h3>
+      <p>Ampia gamma di batterie per motocicli, scooter e ciclomotori. Pronta consegna e montaggio immediato.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚛</div>
+      <h3>Veicoli Commerciali</h3>
+      <p>Batterie per furgoni, camion, autobus e veicoli da lavoro. Soluzioni per le esigenze dei professionisti.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚡</div>
+      <h3>Test &amp; Diagnostica</h3>
+      <p>Verifica gratuita dello stato della batteria e dell'impianto di ricarica. Interveniamo prima che sia troppo tardi.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3>Installazione</h3>
+      <p>Montaggio professionale incluso nell'acquisto. Smaltimento della vecchia batteria nel rispetto dell'ambiente.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏭</div>
+      <h3>Uso Industriale</h3>
+      <p>Batterie per muletti, carrelli elevatori, gruppi di continuità e applicazioni industriali speciali.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PERCHE NOI -->
+<section id="perche">
+  <p class="section-label">I numeri parlano</p>
+  <h2 class="section-title">Perché Sceglierci</h2>
+  <div class="perche-grid">
+    <div class="stat">
+      <div class="num">4.544</div>
+      <div class="desc">Recensioni positive su Google — la fiducia dei clienti è il nostro miglior biglietto da visita.</div>
+    </div>
+    <div class="stat">
+      <div class="num">40+</div>
+      <div class="desc">Anni di esperienza nel settore batterie a Parma e provincia.</div>
+    </div>
+    <div class="stat">
+      <div class="num">500+</div>
+      <div class="desc">Referenze di batterie sempre disponibili a magazzino per pronta consegna.</div>
+    </div>
+    <div class="stat">
+      <div class="num">1°</div>
+      <div class="desc">Negozio specializzato in batterie della provincia di Parma per volume e qualità del servizio.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ORARI + CONTATTI -->
+<section id="contatti">
+  <div>
+    <p class="section-label">Quando siamo aperti</p>
+    <h2 class="section-title">Orari di Apertura</h2>
+    <table class="orari-table">
+      <tr><td>Lunedì</td><td>08:30–12:30 / 14:30–18:30</td></tr>
+      <tr><td>Martedì</td><td>08:30–12:30 / 14:30–18:30</td></tr>
+      <tr><td>Mercoledì</td><td>08:30–12:30 / 14:30–18:30</td></tr>
+      <tr><td>Giovedì</td><td>08:30–12:30 / 15:00–18:30</td></tr>
+      <tr><td>Venerdì</td><td>08:30–12:30 / 14:30–18:30</td></tr>
+      <tr><td>Sabato</td><td class="closed">Chiuso</td></tr>
+      <tr><td>Domenica</td><td class="closed">Chiuso</td></tr>
+    </table>
+  </div>
+
+  <div>
+    <p class="section-label">Dove siamo</p>
+    <h2 class="section-title">Contatti</h2>
+
+    <div class="contact-item">
+      <span class="contact-icon">📍</span>
+      <div>
+        <strong>Indirizzo</strong>
+        <a href="https://maps.google.com/?q=Via+Trieste+58+Parma" target="_blank">Via Trieste, 58 — 43122 Parma (PR)</a>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">📞</span>
+      <div>
+        <strong>Telefono</strong>
+        <a href="tel:0521783924">0521 783924</a>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <span class="contact-icon">🗺️</span>
+      <div>
+        <strong>Zona</strong>
+        <span>Provincia di Parma</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <h2>La Tua Batteria è Scarica?</h2>
+  <p>Contattaci subito — interveniamo in tempi rapidi, con professionalità e prezzi trasparenti.</p>
+  <a href="tel:0521783924" class="btn-white">Chiama ora: 0521 783924</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Pedrona <span>Paolo</span></div>
+  <p>Via Trieste, 58 · 43122 Parma · Tel. 0521 783924</p>
+  <p style="color:#333">© 2025 Pedrona Paolo. Tutti i diritti riservati.</p>
+</footer>
+
+</body>
+</html>
